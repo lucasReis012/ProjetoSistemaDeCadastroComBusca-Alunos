@@ -16,7 +16,9 @@ public class Main {
 
         }
 
-        alunos.buscaAluno(leitor);
+
+
+        alunos.removeAluno(leitor);
 
         for(int i = 0 ; i<3 ; i++){
             alunos.mostraNota(i);

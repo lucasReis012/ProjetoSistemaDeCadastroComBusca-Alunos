@@ -17,6 +17,7 @@ public class Alunos {//começo alunos
                 System.out.println("Qual a nota Do aluno");
                 notas.add(leitor.nextDouble());
                 leitor.nextLine();
+                break;
             }catch(InputMismatchException e){
                 System.out.println("Erro, você digito uma letra. tem que ser um numero.");
                 leitor.next();
@@ -51,6 +52,19 @@ public class Alunos {//começo alunos
             }
         }
     }// fim atualizaNota
+    public void removeAluno(Scanner leitor){//começo metodo remove
+        tamanho = notas.size();
+        System.out.println("Deseja excluir qual aluno?");
+        String alunoRemovido = leitor.nextLine().trim().toLowerCase();
+            for (int i =0 ; i<tamanho; i++){
+                if (nome.get(i).equals(alunoRemovido)){
+                    nome.remove(i);
+                    notas.remove(i);
+                    System.out.println("Aluno Excluido!");
+                    break;
+                }
+            }
+    }//final meotodo remove
 
 
 }//Final alunos
