@@ -1,5 +1,4 @@
 package SistemaDeCadastroComBusca;
-import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Locale;
@@ -20,7 +19,7 @@ public class Main {//começo programa
                 System.out.println("[7] - Sair.");
                 int escolha = leitor.nextInt();
                 leitor.nextLine();
-                if(escolha <0 || escolha>7){
+                if(escolha <1 || escolha>7){
                     System.out.println("Erro, Você digitou um numero diferente das opções");
                 }else {
                     return  escolha;
@@ -37,11 +36,12 @@ public class Main {//começo programa
 
     }//final metodo menuInicial
 
+
     public static  String controle(Scanner leitor){//começo controle
         while (true){
             System.out.println("");
             System.out.println("Gostaria de continuar? (sim/nao)");
-            String controle = leitor.nextLine().trim().toLowerCase();;;
+            String controle = leitor.nextLine().trim().toLowerCase();
             System.out.println("");
             if(controle.trim().equalsIgnoreCase("sim") || controle.trim().equalsIgnoreCase("nao")){
                 return controle;
@@ -51,17 +51,39 @@ public class Main {//começo programa
             }
         }
     }//final metodo controle
-    public static void main (String[] args){//metodo main começo
+
+    public static int numeroCadastros(Scanner leitor){//inicio metodo numeroRanking
+        int quantidade;
+        while(true){
+            try{
+                System.out.println("");
+                System.out.println("Qual a quantidade de alunos a ser cadastrados?");
+                quantidade = leitor.nextInt();
+                leitor.nextLine();
+                return quantidade;
+            } catch (InputMismatchException e) {
+                System.out.println("Erro, incorreto tente novamente!");
+                leitor.nextLine();
+            }
+        }
+
+    }//Final metodo numeroRanking
+
+
+
+    static void main (String[] args){//metodo main começo
         //inicialização do Scanner
         Scanner leitor = new Scanner(System.in);
         //inicialização do objeto alunos.
         Alunos alunos = new Alunos();
         //menu - inicialização
+        System.out.println("****************************************");
+        System.out.println("Bem Vindo!! Ao Cadastro 2.0 :)");
+        System.out.println("****************************************");
         int escolhaUsuario;
         //controle do laço
         String controle;
-        //trava
-        boolean trava = false;
+
 
         do {//começo do-while
             escolhaUsuario= menuInicial(leitor);
@@ -71,65 +93,63 @@ public class Main {//começo programa
             }
             switch (escolhaUsuario){//inicio switch
                 case 1:
-                    System.out.println("Quantos alunos gostaria de cadastrar");
-                    int quantidade = leitor.nextInt();
-                    leitor.nextLine();
-                     for(int i = 0; i< quantidade;i++){
+                    int quantidade = numeroCadastros(leitor);
+                     for(int i = 0; i< quantidade;i++) {
                          alunos.cadastro(leitor);
 
                      }
-
-                        trava = true;
                         break;
 
                 case 2:
-                        if(trava){
-                            alunos.mostraNota();
-                            break;
-                        }else{
-                            System.out.println("Realize o cadastro antes.");
-                            break;
-                        }
-
-                case 3 :
-                        if(trava){
-                            alunos.buscaAluno(leitor);
-                            break;
-                        }else{
-                            System.out.println("Realize o cadastro antes.");
-                            break;
-                        }
-                case 4 :
-                    if(trava){
-                        alunos.atualizaNota(leitor);
+                    if(alunos.temAlunos()){
+                        alunos.mostraNota();
                         break;
                     }else{
                         System.out.println("Realize o cadastro antes.");
                         break;
                     }
 
+                case 3 :
+                    if(alunos.temAlunos()){
+                        alunos.buscaAluno(leitor);
+                        break;
+                    }else{
+                        System.out.println("Realize o cadastro antes.");
+                        break;
+                    }
+                case 4 :if(alunos.temAlunos()){
+                            alunos.atualizaNota(leitor);
+                            break;
+                        }else{
+                            System.out.println("Realize o cadastro antes.");
+                            break;
+                        }
+
                 case 5  :
-                    if(trava){
+                    if(alunos.temAlunos()){
                         alunos.removeAluno(leitor);
                         break;
                     }else{
-                        System.out.println("Realize o cadastro antes.");
-                        break;
+                     System.out.println("Realize o cadastro antes.");
+                     break;
                     }
                 case 6  :
-                    if(trava){
+                    if(alunos.temAlunos()){
                         alunos.ranking(leitor);
                         break;
-                    }else{
-                        System.out.println("Realize o cadastro antes.");
-                        break;
-                    }
+                }else{
+                    System.out.println("Realize o cadastro antes.");
+                    break;
+                }
                 default:
                     System.out.println("Finalizando Sistema... Até logo!");
                     break;
             }//Final switch
 
             controle=controle(leitor);
+            if (controle.equals("nao")){
+                System.out.println("Finalizando Sistema... Até logo!");
+            }
 
         }while(controle.equals("sim")); //final do-while
 
